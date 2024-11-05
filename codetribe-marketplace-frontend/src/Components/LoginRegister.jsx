@@ -129,7 +129,7 @@ export default function LoginRegister({ onAuth, errorMessage }) {
 
         // Navigate to the listing page on successful login
         onAuth({ email, password, isRegister });
-        navigate('/listing'); // Change '/listing' to the actual route of your listing page
+        navigate('/productlist'); // Change '/listing' to the actual route of your listing page
       }
     } catch (error) {
       setFirebaseError(error.message);
