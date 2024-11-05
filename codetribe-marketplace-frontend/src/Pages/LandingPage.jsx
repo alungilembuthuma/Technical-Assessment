@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../Components/Footer'; // Adjust the import path as necessary
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -9,16 +10,18 @@ function LandingPage() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '100%',
     background: 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)',
     color: '#fff',
     textAlign: 'center',
     padding: '20px',
     overflow: 'hidden',
     fontFamily: "'Arial', sans-serif",
+    flexDirection: 'column', // Change to column to stack footer at bottom
   };
 
   const contentStyle = {
+    marginTop: '15%',
     maxWidth: '600px',
     padding: '20px',
     animation: 'fadeIn 1.5s ease-in-out',
@@ -84,6 +87,11 @@ function LandingPage() {
           Get Started
         </button>
       </div>
+
+   <div style={{marginTop:"30%", width:"110%", }}>
+   <Footer />
+   </div>
+     
     </div>
   );
 }
