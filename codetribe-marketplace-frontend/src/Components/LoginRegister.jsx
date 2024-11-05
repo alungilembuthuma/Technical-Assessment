@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';  // Import auth and db from firebase.js
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection, getDocs } from "firebase/firestore";  // Import Firestore functions
+import { useNavigate } from 'react-router-dom';  // Import useNavigate from react-router-dom
 
 export default function LoginRegister({ onAuth, errorMessage }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -9,6 +10,9 @@ export default function LoginRegister({ onAuth, errorMessage }) {
   const [password, setPassword] = useState('');
   const [firebaseError, setFirebaseError] = useState('');
   const [existingUsers, setExistingUsers] = useState([]); // State to hold registered users
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch existing users from Firestore when the component mounts
   useEffect(() => {
@@ -40,6 +44,7 @@ export default function LoginRegister({ onAuth, errorMessage }) {
     padding: '20px',
     fontFamily: "'Arial', sans-serif",
   };
+  
   const formStyle = {
     backgroundColor: '#fff',
     padding: '30px',
@@ -50,12 +55,14 @@ export default function LoginRegister({ onAuth, errorMessage }) {
     textAlign: 'left',
     color: '#333',
   };
+  
   const headingStyle = {
     fontSize: '1.8rem',
     marginBottom: '20px',
     textAlign: 'center',
     color: '#2575fc',
   };
+  
   const inputStyle = {
     width: '100%',
     padding: '10px',
@@ -64,6 +71,7 @@ export default function LoginRegister({ onAuth, errorMessage }) {
     border: '1px solid #ddd',
     fontSize: '1rem',
   };
+  
   const buttonStyle = {
     width: '100%',
     padding: '10px',
@@ -74,6 +82,7 @@ export default function LoginRegister({ onAuth, errorMessage }) {
     borderRadius: '5px',
     cursor: 'pointer',
   };
+  
   const toggleStyle = {
     textAlign: 'center',
     color: '#2575fc',
@@ -101,7 +110,12 @@ export default function LoginRegister({ onAuth, errorMessage }) {
           uid: user.uid,
           email: user.email,
         });
+
+        // Alert user about successful registration
+        alert('Registration successful! You can now log in.');
+
         onAuth({ email, password, isRegister });
+        navigate('/listing'); // Navigate after successful registration
       } else {
         // Log in existing user
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -113,7 +127,9 @@ export default function LoginRegister({ onAuth, errorMessage }) {
           return;
         }
 
+        // Navigate to the listing page on successful login
         onAuth({ email, password, isRegister });
+        navigate('/listing'); // Change '/listing' to the actual route of your listing page
       }
     } catch (error) {
       setFirebaseError(error.message);
@@ -133,14 +149,32 @@ export default function LoginRegister({ onAuth, errorMessage }) {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <input
-            type="password"
-            placeholder="Password"
-            style={inputStyle}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div style={{ position: 'relative' }}>
+            <input
+              type={showPassword ? 'text' : 'password'} // Toggle input type
+              placeholder="Password"
+              style={inputStyle}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                color: '#2575fc',
+                cursor: 'pointer',
+              }}
+            >
+              {showPassword ? 'Hide' : 'Show'} 
+            </button>
+          </div>
           <button type="submit" style={buttonStyle}>
             {isRegister ? 'Register' : 'Login'}
           </button>
