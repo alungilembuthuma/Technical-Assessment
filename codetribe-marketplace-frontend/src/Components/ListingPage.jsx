@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useNavigate } from 'react-router-dom'; 
+import Footer from '../Components/Footer';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -26,6 +27,7 @@ const ProductList = () => {
   const containerStyle = {
     fontFamily: "'Arial', sans-serif",
     color: '#333',
+
   };
 
   const productItemStyle = {
@@ -48,9 +50,8 @@ const ProductList = () => {
   };
 
   const cartIconStyle = {
-    position: 'fixed',
-    top: '10px',
-    right: '10px',
+   marginTop: '-7%',
+   marginLeft: '94%',
     fontSize: '24px',
     color: '#4facfe',
     cursor: 'pointer',
@@ -99,7 +100,7 @@ const ProductList = () => {
       <div style={navbarStyle}>
         <div>
           <a style={navLinkStyle} onClick={() => navigate('/cart')}>Cart</a>
-          <a style={navLinkStyle} onClick={() => navigate('/user-profile')}>User Profile</a>
+          <a style={navLinkStyle} onClick={() => navigate('/userprofile')}>User Profile</a>
         </div>
         <div>
           <a style={navLinkStyle} onClick={() => console.log('Logout')}>Logout</a>
@@ -133,6 +134,9 @@ const ProductList = () => {
           </li>
         ))}
       </ul>
+      <div style={{width:"120%", marginLeft:"-5%", marginTop:"20%"}}>
+        <Footer/>
+      </div>
     </div>
   );
 };

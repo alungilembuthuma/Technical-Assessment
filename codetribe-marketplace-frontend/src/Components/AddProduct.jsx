@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { db, storage } from '../firebase'; // Ensure this path is correct for your setup
-import { addDoc, collection } from 'firebase/firestore';
+import { db, storage } from '../firebase'; 
+import { addDoc, collection } from 'firebase/firestore'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import Footer from '../Components/Footer';
 
 export default function AddProduct() {
   const [name, setName] = useState('');
@@ -48,10 +49,9 @@ export default function AddProduct() {
   };
 
   const containerStyle = {
-    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '120vh',
     background: 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)',
     color: '#fff',
     textAlign: 'center',
@@ -68,6 +68,8 @@ export default function AddProduct() {
     maxWidth: '400px',
     textAlign: 'left',
     color: '#333',
+    marginLeft: '30%',
+    marginTop: '15%'
   };
 
   const headingStyle = {
@@ -144,6 +146,9 @@ export default function AddProduct() {
             </p>
           )}
         </form>
+      </div>
+      <div style={{width:"120%", marginLeft:"-5%", marginTop:"20%"}}>
+        <Footer/>
       </div>
     </div>
   );
